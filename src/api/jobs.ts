@@ -13,13 +13,15 @@ export type Job = {
   jobDetailsFromCompany: string;
 };
 
-const fetchAll: () => Promise<{ jdList: Job[]; totalCount: number }> = () => {
+const fetchAll = (
+  offset: number,
+): Promise<{ jdList: Job[]; totalCount: number }> => {
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
 
   const body = JSON.stringify({
     limit: 9,
-    offset: 0,
+    offset,
   });
 
   return fetch("https://api.weekday.technology/adhoc/getSampleJdJSON", {

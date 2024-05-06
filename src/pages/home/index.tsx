@@ -1,5 +1,5 @@
 import { Container } from "@mui/material";
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 
 import { useDispatch, useSelector } from "../../hooks/redux";
 import { selectFilters } from "../../store/filters-slice";
@@ -8,6 +8,8 @@ import { Filters } from "./filters";
 import { JobCards } from "./job-cards";
 
 export const Home = () => {
+  const observer = useRef<IntersectionObserver>();
+
   const dispatch = useDispatch();
   const { jobs } = useSelector(selectJobs);
   const { experience, companyName, location, mode, role } =
@@ -16,6 +18,22 @@ export const Home = () => {
   useEffect(() => {
     dispatch(fetchJobs());
   }, [dispatch]);
+
+  const lastJobCardRef = useCallback(
+    (element: HTMLDivElement) => {
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) dispatch(fetchJobs());
+        },
+        { threshold: 0.8 },
+      );
+
+      if (element) observer.current.observe(element);
+    },
+    [dispatch],
+  );
 
   const filteredJobs = useMemo(() => {
     return jobs.filter((job) => {
@@ -70,7 +88,7 @@ export const Home = () => {
           marginBottom: "3rem",
         }}
       />
-      <JobCards jobs={filteredJobs} />
+      <JobCards jobs={filteredJobs} lastCardRef={lastJobCardRef} />
     </Container>
   );
 };
