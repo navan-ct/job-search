@@ -1,2 +1,3 @@
 export { PrimaryButton } from "./primary-button";
-export { SelectField } from "./select-field";
+export { SelectInput } from "./select-input";
+export { TextInput } from "./text-input";

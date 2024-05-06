@@ -5,20 +5,20 @@ import { ArrowButton } from "./arrow-button";
 import { Placeholder } from "./placeholder";
 import { Value } from "./value";
 
-export type SelectFieldProps = {
+export type SelectInputProps = {
   placeholder: string;
   options: string[];
   value: string | null;
   onChange: (value: string | null) => void;
 };
 
-export const SelectField = ({
+export const SelectInput = ({
   placeholder,
   options,
   value,
   onChange,
-}: SelectFieldProps) => {
-  const selectField = useRef<HTMLInputElement | null>(null);
+}: SelectInputProps) => {
+  const selectInput = useRef<HTMLInputElement | null>(null);
   const clearValueButton = useRef<HTMLButtonElement | null>(null);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +36,7 @@ export const SelectField = ({
   };
 
   const handleArrowButtonClick = () => {
-    selectField.current?.focus?.();
+    selectInput.current?.focus?.();
     setIsOpen(true);
   };
 
@@ -59,7 +59,7 @@ export const SelectField = ({
         </Typography>
       ) : null}
       <Select
-        inputRef={selectField}
+        inputRef={selectInput}
         open={isOpen}
         onOpen={handleOpen}
         onClose={handleClose}

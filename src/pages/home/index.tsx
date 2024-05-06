@@ -10,7 +10,8 @@ import { JobCards } from "./job-cards";
 export const Home = () => {
   const dispatch = useDispatch();
   const { jobs } = useSelector(selectJobs);
-  const { experience, mode } = useSelector(selectFilters);
+  const { experience, companyName, location, mode, role } =
+    useSelector(selectFilters);
 
   useEffect(() => {
     dispatch(fetchJobs());
@@ -23,6 +24,22 @@ export const Home = () => {
       }
 
       if (
+        companyName &&
+        job.companyName &&
+        !job.companyName.toLowerCase().includes(companyName.toLowerCase())
+      ) {
+        return false;
+      }
+
+      if (
+        location &&
+        job.location &&
+        !job.location.toLowerCase().includes(location.toLowerCase())
+      ) {
+        return false;
+      }
+
+      if (
         mode &&
         job.location &&
         ((mode === "Remote" && job.location.toLowerCase() !== "remote") ||
@@ -31,9 +48,17 @@ export const Home = () => {
         return false;
       }
 
+      if (
+        role &&
+        job.jobRole &&
+        !job.jobRole.toLowerCase().includes(role.toLowerCase())
+      ) {
+        return false;
+      }
+
       return true;
     });
-  }, [jobs, experience, mode]);
+  }, [jobs, experience, companyName, location, mode, role]);
 
   return (
     <Container sx={{ padding: "1.5rem 0 3rem 0" }}>
