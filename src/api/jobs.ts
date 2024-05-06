@@ -18,7 +18,7 @@ const fetchAll: () => Promise<{ jdList: Job[]; totalCount: number }> = () => {
   headers.append("Content-Type", "application/json");
 
   const body = JSON.stringify({
-    limit: 10,
+    limit: 9,
     offset: 0,
   });
 

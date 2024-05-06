@@ -4,10 +4,12 @@ import { StoreState } from ".";
 
 export type FiltersState = {
   experience: string | null;
+  mode: string | null;
 };
 
 const initialState: FiltersState = {
   experience: null,
+  mode: null,
 };
 
 export const filtersSlice = createSlice({
@@ -20,10 +22,13 @@ export const filtersSlice = createSlice({
     ) => {
       state.experience = action.payload;
     },
+    setMode: (state, action: PayloadAction<FiltersState["mode"]>) => {
+      state.mode = action.payload;
+    },
   },
 });
 
-export const { setExperience } = filtersSlice.actions;
+export const { setExperience, setMode } = filtersSlice.actions;
 
 export const filtersReducer = filtersSlice.reducer;
 export const selectFilters = (state: StoreState) => state.filters;
